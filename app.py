@@ -81,6 +81,33 @@ def read_obms():
 
 	return response.text
 
+@app.route('/rackhd/obms/update', methods=['PATCH'])
+
+def update_obms():
+	base_url = "https://localhost:8443/api/current/obms"
+
+	nodeId = request.json['nodeId']
+
+	url = base_url + "/" + nodeId
+
+	token = "JWT " + request.headers.get('Authorization')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	service = request.json['service']
+	user = request.json['user']
+	password = request.json['password']
+	host = request.json['host']
+
+	payload = '{"nodeId":"' + nodeId +'", "service":"' + service + '", "config":{"user":"' + user +'", "password":"' + password + '", "host":"' + host + '"}}'
+
+	response = requests.patch(url, headers=headers, data=payload, verify=False)
+
+	return response.text
+
 @app.route('/rackhd/role/create', methods=['POST'])
 
 def create_role():
