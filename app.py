@@ -86,9 +86,39 @@ def read_role():
 	response = requests.get(url, headers=headers, verify=False)
 	return response.text
 
+@app.route('/rackhd/role/update', methods=['PATCH'])
+
 def update_role():
 
-	url = "https://"
+	base_url = "https://localhost:8443/api/current/roles"
+
+	role = request.json['role']
+
+	url = base_url + "/" + role
+
+	token = "JWT " + request.headers.get('Authorization')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	privileges = request.json['privileges']
+
+	privileges2 = list()
+
+	for permission in privileges:
+		privileges2.append(str(permission))
+
+	privileges2 = str(privileges2)
+	privileges2 = privileges2.replace("'",'"')
+
+	role = request.json['role']
+
+	payload = '{"privileges": ' + privileges2 + '}'
+	response = requests.patch(url, headers=headers, data=payload, verify=False)
+
+	return response.text
 
 if __name__ == '__main__':
 	app.run(debug=True)
