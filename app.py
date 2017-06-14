@@ -2,7 +2,7 @@
 
 from flask import Flask, jsonify, request, abort
 
-import requests
+import requests, json
 
 #from flask_httpauth import HTTPBasicAuth
 
@@ -44,6 +44,39 @@ def rackhd_login():
         #print(response.text)
 	return response.text
 
+@app.route('/rackhd/role/create', methods=['POST'])
+
+def create_role():
+	url = "https://localhost:8443/api/current/roles"
+
+	token = "JWT " + request.headers.get('Authorization')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	privileges = request.json['privileges']
+
+	privileges2 = list()
+
+	for permission in privileges:
+		privileges2.append(str(permission))
+
+	privileges2 = str(privileges2)
+	privileges2 = privileges2.replace("'",'"')
+	#privileges2 = json.dumps(privileges2)
+
+	#privileges2 = privileges2.encode("ascii")
+	role = request.json['role']
+
+	payload = '{"privileges": ' + privileges2 + ', "role": "' + role + '"}'
+	#payload = json.dumps(payload)
+	response = requests.post(url, headers=headers, data=payload, verify=False)
+
+	#return payload
+	return response.text
+
 @app.route('/rackhd/role/read', methods=['GET'])
 
 def read_role():
@@ -52,7 +85,7 @@ def read_role():
 
 	url = "https://localhost:8443/api/current/roles"
 
-	token = "JWT " + request.headers.get('token')
+	token = "JWT " + request.headers.get('Authorization')
 
 	headers = {
 		"Content-Type": "application/json",
