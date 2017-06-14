@@ -108,6 +108,26 @@ def update_obms():
 
 	return response.text
 
+@app.route('/rackhd/obms/delete', methods=['DELETE'])
+
+def delete_obms():
+	base_url = "https://localhost:8443/api/current/obms"
+
+	nodeId = request.json['nodeId']
+
+	url = base_url + "/" + nodeId
+
+	token = "JWT " + request.headers.get('Authorization')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	response = requests.delete(url, headers=headers, verify=False)
+
+	return response.text
+
 @app.route('/rackhd/role/create', methods=['POST'])
 
 def create_role():
