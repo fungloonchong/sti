@@ -65,6 +65,22 @@ def create_obms():
 
 	return response.text
 
+@app.route('/rackhd/obms/read', methods=['GET'])
+
+def read_obms():
+	url = "https://localhost:8443/api/current/obms"
+
+	token = "JWT " + request.headers.get('Authorization')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	response = requests.get(url, headers=headers, verify=False)
+
+	return response.text
+
 @app.route('/rackhd/role/create', methods=['POST'])
 
 def create_role():
