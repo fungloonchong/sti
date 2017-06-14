@@ -36,9 +36,33 @@ def rackhd_login():
 		"Content-Type": "application/json"
 	}
 
-	payload = '{"username" : "' + username + '", "password": "' + password + '"}'
+	payload = '{"username": "' + username + '", "password": "' + password + '"}'
 
-        response = requests.post(url, headers=headers, data=payload, verify=False)
+    	response = requests.post(url, headers=headers, data=payload, verify=False)
+	return response.text
+
+@app.route('/rackhd/obms/create', methods=['PUT'])
+
+def create_obms():
+	url = "https://localhost:8443/api/current/obms"
+
+	token = "JWT " + request.headers.get('Authorization')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	nodeId = request.json['nodeId']
+	service = request.json['service']
+	user = request.json['user']
+	password = request.json['password']
+	host = request.json['host']
+
+	payload = '{"nodeId": "' + nodeId + '", "service":"' + service + '", "config":{"user":"' + user + '", "password":"' + password + '", "host":"' + host + '"}}'
+
+	response = requests.put(url, headers=headers, data=payload, verify=False)
+
 	return response.text
 
 @app.route('/rackhd/role/create', methods=['POST'])
