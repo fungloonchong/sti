@@ -28,7 +28,6 @@ def rackhd_login():
 
 	username = request.json['username']
 	password = request.json['password']
-	#role = request.json['role']
 
 
 	url = "https://localhost:8443/login"
@@ -39,9 +38,7 @@ def rackhd_login():
 
 	payload = '{"username" : "' + username + '", "password": "' + password + '"}'
 
-	#return payload
         response = requests.post(url, headers=headers, data=payload, verify=False)
-        #print(response.text)
 	return response.text
 
 @app.route('/rackhd/role/create', methods=['POST'])
@@ -65,23 +62,17 @@ def create_role():
 
 	privileges2 = str(privileges2)
 	privileges2 = privileges2.replace("'",'"')
-	#privileges2 = json.dumps(privileges2)
 
-	#privileges2 = privileges2.encode("ascii")
 	role = request.json['role']
 
 	payload = '{"privileges": ' + privileges2 + ', "role": "' + role + '"}'
-	#payload = json.dumps(payload)
 	response = requests.post(url, headers=headers, data=payload, verify=False)
 
-	#return payload
 	return response.text
 
 @app.route('/rackhd/role/read', methods=['GET'])
 
 def read_role():
-	#if not request.headers.get or not 'token' in request.headers.get:
-	#	abort(400)
 
 	url = "https://localhost:8443/api/current/roles"
 
@@ -94,6 +85,10 @@ def read_role():
 
 	response = requests.get(url, headers=headers, verify=False)
 	return response.text
+
+def update_role():
+
+	url = "https://"
 
 if __name__ == '__main__':
 	app.run(debug=True)
