@@ -113,10 +113,29 @@ def update_role():
 	privileges2 = str(privileges2)
 	privileges2 = privileges2.replace("'",'"')
 
-	role = request.json['role']
-
 	payload = '{"privileges": ' + privileges2 + '}'
 	response = requests.patch(url, headers=headers, data=payload, verify=False)
+
+	return response.text
+
+@app.route('/rackhd/role/delete', methods=['DELETE'])
+
+def delete_role():
+
+	base_url = "https://localhost:8443/api/current/roles"
+
+	role = request.json['role']
+
+	url = base_url + "/" + role
+
+	token = "JWT " + request.headers.get('Authorization')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	response = requests.delete(url, headers=headers, verify=False)
 
 	return response.text
 
