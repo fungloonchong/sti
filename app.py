@@ -1,27 +1,27 @@
 #!flask/bin/python
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, make_response
 
 import requests, json
 
-#from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 
-#auth = HTTPBasicAuth()
+auth = HTTPBasicAuth()
 
-#@auth.get_password
-#def get_password(username):
-#	if username == 'admin':
-#		return 'flask'
-#	return None
+@auth.get_password
+def get_password(username):
+	if username == 'admin':
+		return 'flask'
+	return None
 
-#@auth.error_handler
-#def unauthorizaed():
-#	return make_response(jsonify({'error': 'Flask unauthorized access'}), 401)
+@auth.error_handler
+def unauthorizaed():
+	return make_response(jsonify({'error': 'Flask unauthorized access'}), 401)
 
 app = Flask(__name__)
 
 @app.route('/rackhd/login', methods=['POST'])
-#@auth.login_required
+@auth.login_required
 def rackhd_login():
 	if not request.json or not 'username' in request.json:
 		abort(400)
