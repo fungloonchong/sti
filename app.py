@@ -92,6 +92,24 @@ def read_obms():
 
 	return response.text
 
+@app.route('/rackhd/obms/read/<string:nodeId>', methods=['GET'])
+@auth.login_required
+def read_obms_by_id(nodeId):
+	base_url = "https://localhost:8443/api/current/obms"
+
+	url = base_url + "/" + nodeId
+
+	token = "JWT " + request.headers.get('Token')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	response = requests.get(url, headers=headers, verify=False)
+
+	return response.text
+
 @app.route('/rackhd/obms/update', methods=['PATCH'])
 @auth.login_required
 def update_obms():
