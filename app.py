@@ -1,12 +1,12 @@
 #!flask/bin/python
 
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort, make_response, url_for
+from flask_httpauth import HTTPBasicAuth
 
 import requests, json
 
-from flask_httpauth import HTTPBasicAuth
-
 auth = HTTPBasicAuth()
+app = Flask(__name__)
 
 @auth.get_password
 def get_password(username):
@@ -18,7 +18,17 @@ def get_password(username):
 def unauthorizaed():
 	return make_response(jsonify({'error': 'Flask unauthorized access'}), 401)
 
-app = Flask(__name__)
+@app.errorhandler(400)
+def bad_request(error):
+	return make_response(jsonify({'error':'Bad request'}), 400)
+
+@app.errorhandler(404)
+def not_found(error):
+	return make_response(jsonify({'error':'Not found'}), 404)
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+	return make_response(jsonify({'error':'Method not allowed'}), 405)
 
 @app.route('/rackhd/login', methods=['POST'])
 @auth.login_required
@@ -38,15 +48,16 @@ def rackhd_login():
 
 	payload = '{"username": "' + username + '", "password": "' + password + '"}'
 
-    	response = requests.post(url, headers=headers, data=payload, verify=False)
+	response = requests.post(url, headers=headers, data=payload, verify=False)
+
 	return response.text
 
 @app.route('/rackhd/obms/create', methods=['PUT'])
-
+@auth.login_required
 def create_obms():
 	url = "https://localhost:8443/api/current/obms"
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
@@ -66,11 +77,11 @@ def create_obms():
 	return response.text
 
 @app.route('/rackhd/obms/read', methods=['GET'])
-
+@auth.login_required
 def read_obms():
 	url = "https://localhost:8443/api/current/obms"
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
@@ -82,7 +93,7 @@ def read_obms():
 	return response.text
 
 @app.route('/rackhd/obms/update', methods=['PATCH'])
-
+@auth.login_required
 def update_obms():
 	base_url = "https://localhost:8443/api/current/obms"
 
@@ -109,7 +120,7 @@ def update_obms():
 	return response.text
 
 @app.route('/rackhd/obms/delete', methods=['DELETE'])
-
+@auth.login_required
 def delete_obms():
 	base_url = "https://localhost:8443/api/current/obms"
 
@@ -129,7 +140,7 @@ def delete_obms():
 	return response.text
 
 @app.route('/rackhd/role/create', methods=['POST'])
-
+@auth.login_required
 def create_role():
 	url = "https://localhost:8443/api/current/roles"
 
@@ -158,7 +169,7 @@ def create_role():
 	return response.text
 
 @app.route('/rackhd/role/read', methods=['GET'])
-
+@auth.login_required
 def read_role():
 
 	url = "https://localhost:8443/api/current/roles"
@@ -174,7 +185,7 @@ def read_role():
 	return response.text
 
 @app.route('/rackhd/role/update', methods=['PATCH'])
-
+@auth.login_required
 def update_role():
 
 	base_url = "https://localhost:8443/api/current/roles"
@@ -206,7 +217,7 @@ def update_role():
 	return response.text
 
 @app.route('/rackhd/role/delete', methods=['DELETE'])
-
+@auth.login_required
 def delete_role():
 
 	base_url = "https://localhost:8443/api/current/roles"
