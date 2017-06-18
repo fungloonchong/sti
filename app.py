@@ -101,7 +101,7 @@ def update_obms():
 
 	url = base_url + "/" + nodeId
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
@@ -128,7 +128,7 @@ def delete_obms():
 
 	url = base_url + "/" + nodeId
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
@@ -144,7 +144,7 @@ def delete_obms():
 def create_role():
 	url = "https://localhost:8443/api/current/roles"
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
@@ -174,7 +174,7 @@ def read_role():
 
 	url = "https://localhost:8443/api/current/roles"
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
@@ -194,7 +194,7 @@ def update_role():
 
 	url = base_url + "/" + role
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
@@ -226,7 +226,7 @@ def delete_role():
 
 	url = base_url + "/" + role
 
-	token = "JWT " + request.headers.get('Authorization')
+	token = "JWT " + request.headers.get('Token')
 
 	headers = {
 		"Content-Type": "application/json",
