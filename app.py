@@ -275,7 +275,28 @@ def delete_role():
 
 	return response.text
 
-@app.route
+@app.route('/rackhd/account/create', methods=['POST'])
+@auth.login_required
+def create_account():
+
+	base_url = "https://localhost:8443/api/current/users?auth_token="
+
+	token = request.headers.get['Token']
+
+	url = base_url + token
+
+	username = request.json['username']
+	password = request.json['password']
+	role = request.json['role']
+
+	payload = '{"username":"' + username + '", "password":"' + password +'", "role":"' + role + '"}'
+
+	headers = {
+		"Content-Type": "application/json"
+	}
+
+	response = requests.post(url, headers=headers, data=payload, verify=False)
+	return response.text
 
 if __name__ == '__main__':
 	app.run(debug=True)
