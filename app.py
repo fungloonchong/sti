@@ -202,6 +202,26 @@ def read_role():
 	response = requests.get(url, headers=headers, verify=False)
 	return response.text
 
+@app.route('/rackhd/role/read/<string role>', methods=['GET'])
+@auth.login_required
+def read_role_by_role():
+
+	base_url = "https://localhost:8443/api/current/roles"
+
+	role = request.json['role']
+
+	url = base_url + "/" + role
+
+	token = "JWT " + request.headers.get('Token')
+
+	headers = {
+		"Content-Type": "application/json",
+		"Authorization": token
+	}
+
+	response = requests.get(url, headers=headers, verify=False)
+	return response.text
+
 @app.route('/rackhd/role/update', methods=['PATCH'])
 @auth.login_required
 def update_role():
@@ -254,6 +274,8 @@ def delete_role():
 	response = requests.delete(url, headers=headers, verify=False)
 
 	return response.text
+
+@app.route
 
 if __name__ == '__main__':
 	app.run(debug=True)
