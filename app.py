@@ -204,11 +204,9 @@ def read_role():
 
 @app.route('/rackhd/role/read/<string:role>', methods=['GET'])
 @auth.login_required
-def read_role_by_role():
+def read_role_by_role(role):
 
 	base_url = "https://localhost:8443/api/current/roles"
-
-	role = request.json['role']
 
 	url = base_url + "/" + role
 
