@@ -202,7 +202,7 @@ def read_role():
 	response = requests.get(url, headers=headers, verify=False)
 	return response.text
 
-@app.route('/rackhd/role/read/<string role>', methods=['GET'])
+@app.route('/rackhd/role/read/<string:role>', methods=['GET'])
 @auth.login_required
 def read_role_by_role():
 
