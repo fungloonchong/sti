@@ -1,0 +1,351 @@
+swagger: '2.0'
+info:
+  description: STI API for RackHD/Redfish with Flask as the front-end.
+  version: 1.0.0
+  title: STI 
+  # put the contact info for your development or API team
+  contact:
+    email: fungloonchong@gmail.com
+
+  license:
+    name: Apache 2.0a
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+
+paths:
+  /obms/create:
+    put:
+      tags:
+      - OBMS management
+      summary: create a obms node on RackHD
+      operationId: createobms
+      description: |
+        create a obms node on RackHD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: data
+        in: body
+        description: data to sent
+        required: true
+        schema: 
+          $ref: '#/definitions/obms_create'
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      responses:
+        200:
+          description: added okay
+  /obms/read:
+    get:
+      tags:
+      - OBMS management
+      summary: read obms on RackHD
+      operationId: searchInventory
+      description: |
+        Shows all obms (out of band management system) on RackHD
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: data
+        description: |
+          show information about a single obms node when nodeId is specified. If not, all present obms node information will be printed.
+        schema:
+          $ref: '#/definitions/obms_read'
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      responses:
+        200:
+          description: shows all obms
+        400:
+          description: bad input parameter
+  /obms/update:
+    patch:
+      tags:
+      - OBMS management
+      summary: update a obms node on RackHD
+      operationId: updateobms
+      description: |
+        update a obms node on RackHD
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: data
+        description: |
+          show information about a single obms node when nodeId is specified. If not, all present obms node information will be printed.
+        schema:
+          $ref: '#/definitions/obms_update'
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      responses:
+        200:
+          description: added okay
+  /obms/delete:
+    delete:
+      tags:
+      - OBMS management
+      summary: delete obms on RackHD
+      operationId: opeartion
+      description: |
+        delete an obms (out of band management system) on RackHD
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: nodeId
+        description: node id
+        schema:
+            $ref: '#/definitions/obms_delete'
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      responses:
+        200:
+          description: deleted an obms
+        400:
+          description: bad input parameter
+  /role/create:
+    post:
+      tags:
+      - Role management
+      summary: adds a new role to RackHD
+      operationId: addrole
+      description: adds a new role to RackHD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      - in: body
+        name: data
+        description: a name to identify a role
+        schema:
+          $ref: '#/definitions/role_create'
+      responses:
+        200:
+          description: ok
+  /role/read:
+    get:
+      tags:
+      - Role management
+      summary: read a role
+      operationId: readrole
+      description: read roles on RackHD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      - in: body
+        name: role
+        description: show information about a single role when role name is specified. If not, all present role information will be printed.
+        schema: 
+          $ref: '#/definitions/role_read'
+      responses:
+        200:
+          description: ok
+  /role/update:
+    patch:
+      tags:
+      - Role management
+      summary: delete a role
+      operationId: updaterole
+      description: update a role in RackHD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      - in: body
+        name: data
+        description: update the role specified
+        schema: 
+          $ref: '#/definitions/role_update'
+      responses:
+        200:
+          description: ok
+  /role/delete:
+    delete:
+      tags:
+      - Role management
+      summary: adds an inventory item
+      operationId: deleterole
+      description: delete a role in RackHD
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: token
+        in: header
+        description: api key
+        required: true
+        type: string
+      - in: body
+        name: role
+        required: true
+        description: delete the role specified
+        schema: 
+          $ref: '#/definitions/role_delete'
+      responses:
+        200:
+          description: ok
+definitions:
+  obms_create:
+    type: object
+    required:
+    - nodeId
+    - service
+    - username
+    - password
+    - host
+    properties:
+      nodeId:
+        type: string
+        format: string
+        example: node1
+      service:
+        type: string
+        format: string
+        example: ipmi-obm-service
+      username:
+        type: string
+        format: string
+        example: user1
+      password:
+        type: string
+        format: string
+        example: password123
+      host:
+        type: string
+        format: string
+        example: 192.171.5.1
+  obms_read:
+      type: object
+      properties:
+        nodeId:
+          type: string
+          format: string
+          example: node1
+  obms_update:
+    type: object
+    required:
+    - nodeId
+    - service
+    - username
+    - password
+    - host
+    properties:
+      nodeId:
+        type: string
+        format: string
+        example: node1
+      service:
+        type: string
+        format: string
+        example: ipmi-obm-service
+      username:
+        type: string
+        format: string
+        example: user1
+      password:
+        type: string
+        format: string
+        example: password123
+      host:
+        type: string
+        format: string
+        example: 192.171.5.1
+  obms_delete:
+    type: object
+    required:
+    - nodeId
+    properties:
+      nodeId:
+        type: string
+        format: uuid
+        example: 59415a8bb77ff267c0a9c68d7
+  role_create:
+    type: object
+    required:
+    - role
+    - privileges
+    properties:
+      role:
+        type: string
+        format: string
+        example: somerole
+      privileges:
+        type: array
+        example: [hi, lol]
+  role_read:
+    type: object
+    required:
+    - role
+    properties:
+      role:
+        type: string
+        format: string
+        example: somerole
+  role_update:
+    type: object
+    required:
+    - role
+    - privileges
+    properties:
+      role:
+        type: string
+        format: string
+        example: somerole
+      privileges:
+        type: array
+        example: [hi, lol]
+  role_delete:
+    type: object
+    required:
+    - role
+    properties:
+      role:
+        type: string
+        format: string
+        example: somerole
+host: localhost:5000
+basePath: /rackhd/
+# Added by API Auto Mocking Plugin
+schemes:
+ - http
