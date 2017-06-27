@@ -52,6 +52,7 @@ Flask credentials (username, password): admin, flask
 Example command:
 ```
 curl -X GET -H "Content-Type: application/json"  http://localhost:5000/rackhd/obms/read -u admin:flask -H "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE0NTU2MTI5MzMsImV4cCI6MTQ1NTY5OTMzM30.glW-IvWYDBCfDZ6cS_6APoty22PE_Ir5L1mO-YqO3eE"
+```
 
 ### Update
 
@@ -68,6 +69,7 @@ Body (nodeId, service, username, password, host): 59415a8bb77ff267c0a9c68d7, ipm
 Example command:
 ```
 curl -X PATCH -H "Content-Type: application/json"  http://localhost:5000/rackhd/obms/update -u admin:flask -d '{"nodeId":"59415a8bb77ff267c0a9c68d7", "service":"ipmi-obm-service", "username":"user2", "password":"password1234", "host":"192.171.5.2"}' -H "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE0NTU2MTI5MzMsImV4cCI6MTQ1NTY5OTMzM30.glW-IvWYDBCfDZ6cS_6APoty22PE_Ir5L1mO-YqO3eE"
+```
 
 ### Delete
 
@@ -84,6 +86,7 @@ Body (nodeId): 59415a8bb77ff267c0a9c68d7
 Example command:
 ```
 curl -X DELETE -H "Content-Type: application/json"  http://localhost:5000/rackhd/obms/delete -u admin:flask -d '{"nodeId":"59415a8bb77ff267c0a9c68d7"}' -H "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE0NTU2MTI5MzMsImV4cCI6MTQ1NTY5OTMzM30.glW-IvWYDBCfDZ6cS_6APoty22PE_Ir5L1mO-YqO3eE"
+```
 
 ## Role Management
 
@@ -102,6 +105,7 @@ Body (privileges, role): [Read, Write], ReadWrite
 Example command:
 ```
 curl -X POST -H "Content-Type: application/json"  http://localhost:5000/rackhd/role/delete -u admin:flask -d '{"privileges":["Read", "Write"], "role":"ReadWrite"}' -H "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE0NTU2MTI5MzMsImV4cCI6MTQ1NTY5OTMzM30.glW-IvWYDBCfDZ6cS_6APoty22PE_Ir5L1mO-YqO3eE"
+```
 
 ### Read
 
@@ -131,6 +135,7 @@ Flask credentials (username, password): admin, flask
 Example command:
 ```
 curl -X UPDATE -H "Content-Type: application/json"  http://localhost:5000/rackhd/role/update -u admin:flask -d '{"privileges":["Read"], "role":"ReadWrite"}' -H "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE0NTU2MTI5MzMsImV4cCI6MTQ1NTY5OTMzM30.glW-IvWYDBCfDZ6cS_6APoty22PE_Ir5L1mO-YqO3eE"
+```
 
 ### Delete
 
@@ -145,3 +150,4 @@ Flask credentials (username, password): admin, flask
 Example command:
 ```
 curl -X DELETE -H "Content-Type: application/json"  http://localhost:5000/rackhd/role/delete -u admin:flask -d '{"role":"ReadWrite"}' -H "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE0NTU2MTI5MzMsImV4cCI6MTQ1NTY5OTMzM30.glW-IvWYDBCfDZ6cS_6APoty22PE_Ir5L1mO-YqO3eE"
+```
