@@ -116,6 +116,7 @@ Flask credentials (username, password): admin, flask
 Example command:
 ```
 curl -X GET -H "Content-Type: application/json"  http://localhost:5000/rackhd/role/read -u admin:flask -H "Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE0NTU2MTI5MzMsImV4cCI6MTQ1NTY5OTMzM30.glW-IvWYDBCfDZ6cS_6APoty22PE_Ir5L1mO-YqO3eE"
+```
 
 ### Update
 
